@@ -1,0 +1,38 @@
+#!/bin/bash
+
+echo "Docker gitlab - in process..."
+
+echo "Docker gitlab - get docker-compose file"
+
+# wget https://raw.githubusercontent.com/sameersbn/docker-gitlab/master/docker-compose.yml
+wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-compose.yml
+
+file="gitlab.key"
+if [ -f "$file" ]
+then
+	echo "SSL ready - $file already exists."
+else
+	echo "Docker gitlab - SSL generation (lasting 10 years)"
+	echo "Docker gitlab - create the server private key"
+	openssl genrsa -out gitlab.key 2048
+	echo "Docker gitlab - create the certificate signing request (CSR)"
+	openssl req -new -key gitlab.key -out gitlab.csr
+	echo "Docker gitlab - sign the certificate using the private key and CSR"
+	openssl x509 -req -days 3650 -in gitlab.csr -signkey gitlab.key -out gitlab.crt
+	echo "Docker gitlab - strengthening the server security"
+	openssl dhparam -out dhparam.pem 2048
+
+	echo "Docker gitlab - installation of the SSL Certificates"
+
+	sudo mkdir -p /srv/docker/gitlab/gitlab/certs
+	sudo cp gitlab.key /srv/docker/gitlab/gitlab/certs/
+	sudo cp gitlab.crt /srv/docker/gitlab/gitlab/certs/
+	sudo cp dhparam.pem /srv/docker/gitlab/gitlab/certs/
+	# sudo chmod 400 /srv/docker/gitlab/gitlab/certs/gitlab.key
+fi
+
+echo "Docker gitlab - run services"
+
+docker-compose up -d
+
+echo "Docker gitlab - complete."
