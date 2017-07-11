@@ -29,6 +29,7 @@ services:
     ports:
     - "10080:80"
     - "10022:22"
+    - "10443:443"
     volumes:
     - /srv/docker/gitlab/gitlab:/home/git/data:Z
     environment:
@@ -47,11 +48,11 @@ services:
     - TZ=Europe/Vienna
     - GITLAB_TIMEZONE=Vienna
 
-    - GITLAB_HTTPS=false
-    - SSL_SELF_SIGNED=false
+    - GITLAB_HTTPS=true
+    - SSL_SELF_SIGNED=true
 
     - GITLAB_HOST=localhost
-    - GITLAB_PORT=10080
+    - GITLAB_PORT=10443
     - GITLAB_SSH_PORT=10022
     - GITLAB_RELATIVE_URL_ROOT=
     - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
@@ -83,8 +84,8 @@ services:
     - IMAP_ENABLED=false
     - IMAP_HOST=imap.gmail.com
     - IMAP_PORT=993
-    - IMAP_USER=talkative.test@gmail.com
-    - IMAP_PASS=talkative
+    - IMAP_USER=mailer@example.com
+    - IMAP_PASS=password
     - IMAP_SSL=true
     - IMAP_STARTTLS=false
 
