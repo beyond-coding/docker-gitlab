@@ -44,8 +44,8 @@ services:
     - REDIS_HOST=redis
     - REDIS_PORT=6379
 
-    - TZ=Europe/Vienna
-    - GITLAB_TIMEZONE=Vienna
+    - TZ=Asia/Kolkata
+    - GITLAB_TIMEZONE=Kolkata
 
     - GITLAB_HTTPS=false
     - SSL_SELF_SIGNED=false
@@ -75,16 +75,16 @@ services:
     - SMTP_DOMAIN=www.example.com
     - SMTP_HOST=smtp.gmail.com
     - SMTP_PORT=587
-    - SMTP_USER=talkative.test@gmail.com
-    - SMTP_PASS=talkative
+    - SMTP_USER=mailer@example.com
+    - SMTP_PASS=password
     - SMTP_STARTTLS=true
     - SMTP_AUTHENTICATION=login
 
     - IMAP_ENABLED=false
     - IMAP_HOST=imap.gmail.com
     - IMAP_PORT=993
-    - IMAP_USER=talkative.test@gmail.com
-    - IMAP_PASS=talkative
+    - IMAP_USER=mailer@example.com
+    - IMAP_PASS=password
     - IMAP_SSL=true
     - IMAP_STARTTLS=false
 
