@@ -6,7 +6,7 @@
 : ${MAIL_USERNAME:?"Set the environment variable MAIL_USERNAME before running the script. (example: export MAIL_USERNAME=user@example.com"}
 : ${MAIL_PASSWORD:?"Set the environment variable MAIL_PASSWORD before running the script. (example: export MAIL_PASSWORD=my-mail-password"}
 
-DOMAIN=GITLAB_HOST
+DOMAIN=$GITLAB_HOST
 HEADER="Docker gitlab -"
 
 echo "$HEADER in process..."
@@ -14,7 +14,7 @@ echo "$HEADER in process..."
 # Getting the docker-compose file
 
 FILE="docker-compose.yml"
-if [ -f "FILE" ]
+if [ -f "$FILE" ]
 then
     echo "$HEADER docker-compose file was already downloaded."
 else
@@ -26,7 +26,7 @@ fi
 # Generating the certificate
 
 CERTIFICATE="certs/registry-auth.key"
-if [ -f "CERTIFICATE" ]
+if [ -f "$CERTIFICATE" ]
 then
     echo "$HEADER Certificate ready, $file already exists."
 else
