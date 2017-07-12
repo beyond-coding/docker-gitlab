@@ -20,7 +20,7 @@ then
 else
     echo "$HEADER getting docker-compose file."
     wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-compose.yml
-
+    wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-gitlab-runner.sh
 fi
 
 # Generating the certificate
@@ -38,7 +38,6 @@ else
 
     # certificate for the Docker Registry
     openssl req -nodes -newkey rsa:4096 -keyout registry-auth.key -out registry-auth.csr -subj "/CN=gitlab-issuer"
-    openssl rsa -in privkey.pem -out registry.key
     openssl x509 -in registry-auth.csr -out registry-auth.crt -req -signkey registry-auth.key -days 3650
 
     cd ..
