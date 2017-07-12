@@ -4,6 +4,10 @@ HEADER="Docker gitlab -"
 
 # Checking that the domain was provided
 
+: ${GITLAB_HOST:?"Set the environment variable GITLAB_HOST before running the script. (example: export GITLAB_HOST=registry.example.com"}
+: ${MAIL_USERNAME:?"Set the environment variable MAIL_USERNAME before running the script. (example: export MAIL_USERNAME=user@example.com"}
+: ${MAIL_PASSWORD:?"Set the environment variable MAIL_PASSWORD before running the script. (example: export MAIL_PASSWORD=my-mail-password"}
+
 if [ $# -eq 0 ]
 then
     echo "$HEADER Provide the domain as an argument (example: registry.example.com or 192.168.0.20)"
