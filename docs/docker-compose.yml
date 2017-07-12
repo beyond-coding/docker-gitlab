@@ -7,12 +7,13 @@ services:
     command:
     - --loglevel warning
     volumes:
-    - ./redis:/var/lib/redis:Z
+    - /srv/docker/gitlab/redis:/var/lib/redis:Z
+
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.6-2
     volumes:
-    - ./postgresql:/var/lib/postgresql:Z
+    - /srv/docker/gitlab/postgresql:/var/lib/postgresql:Z
     environment:
     - DB_USER=gitlab
     - DB_PASS=password
@@ -28,11 +29,8 @@ services:
     ports:
     - "10080:80"
     - "10022:22"
-    - "10443:443"
     volumes:
-    - ./gitlab:/home/git/data:Z
-    - ./logs:/var/log/gitlab
-    - ./certs:/certs
+    - /srv/docker/gitlab/gitlab:/home/git/data:Z
     environment:
     - DEBUG=false
 
@@ -45,25 +43,20 @@ services:
 
     - REDIS_HOST=redis
     - REDIS_PORT=6379
-    - GITLAB_SSH_PORT=10022
-    - GITLAB_PORT=10080
-    - GITLAB_HOST=gitlab.example.com
-
-    - GITLAB_HTTPS=true
-    - SSL_SELF_SIGNED=true
-
-    - GITLAB_SECRETS_DB_KEY_BASE=superrandomsecret
-    - GITLAB_REGISTRY_ENABLED=true
-    - GITLAB_REGISTRY_HOST=registry.gitlab.example.com
-    - GITLAB_REGISTRY_PORT=5000
-    - GITLAB_REGISTRY_API_URL=http://registry:5000
-    - GITLAB_REGISTRY_CERT_PATH=/certs/registry-auth.crt
-    - GITLAB_REGISTRY_KEY_PATH=/certs/registry-auth.key
-    - SSL_REGISTRY_KEY_PATH=/certs/registry.key
-    - SSL_REGISTRY_CERT_PATH=/certs/registry.crt
 
     - TZ=Europe/Vienna
     - GITLAB_TIMEZONE=Vienna
+
+    - GITLAB_HTTPS=false
+    - SSL_SELF_SIGNED=false
+
+    - GITLAB_HOST=localhost
+    - GITLAB_PORT=10080
+    - GITLAB_SSH_PORT=10022
+    - GITLAB_RELATIVE_URL_ROOT=
+    - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
+    - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string
+    - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string
 
     - GITLAB_ROOT_PASSWORD=
     - GITLAB_ROOT_EMAIL=
@@ -155,18 +148,3 @@ services:
     - OAUTH_AZURE_API_KEY=
     - OAUTH_AZURE_API_SECRET=
     - OAUTH_AZURE_TENANT_ID=
-
-  registry:
-    restart: always
-    image: registry:2.4.1
-    volumes:
-    - ./gitlab/shared/registry:/registry
-    - ./certs:/certs
-    environment:
-    - REGISTRY_LOG_LEVEL=info
-    - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/registry
-    - REGISTRY_AUTH_TOKEN_REALM=http://gitlab.example.com:10080/jwt/auth
-    - REGISTRY_AUTH_TOKEN_SERVICE=container_registry
-    - REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
-    - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry-auth.crt
-    - REGISTRY_STORAGE_DELETE_ENABLED=true

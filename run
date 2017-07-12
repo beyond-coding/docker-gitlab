@@ -1,0 +1,72 @@
+#!/bin/bash
+
+HEADER="Docker gitlab -"
+
+# Checking that the domain was provided
+
+if [ $# -eq 0 ]
+then
+    echo "$HEADER Provide the domain as an argument (example: registry.example.com or 192.168.0.20)"
+else
+    DOMAIN=$1
+
+    echo "Docker gitlab - in process..."
+
+    # Getting the docker-compose file
+
+    FILE="docker-compose.yml"
+    if [ -f "FILE" ]
+    then
+        echo "$HEADER docker-compose file was already downloaded."
+    else
+        echo "$HEADER getting docker-compose file."
+        wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-compose.yml
+
+    fi
+
+    # Generating the certificate
+
+    CERTIFICATE="registry-auth.key"
+    if [ -f "CERTIFICATE" ]
+    then
+    	echo "$HEADER Certificate ready, $file already exists."
+    else
+        mkdir certs && cd certs
+        openssl req -nodes -newkey rsa:4096 -keyout registry-auth.key -out registry-auth.csr -subj "/CN=$DOMAIN"
+        openssl x509 -in registry-auth.csr -out registry-auth.crt -req -signkey registry-auth.key -days 3650
+
+
+    	# echo "Docker gitlab - SSL generation (lasting 10 years)"
+    	# echo "Docker gitlab - create the server private key"
+    	# openssl genrsa -out gitlab.key 2048
+    	# echo "Docker gitlab - create the certificate signing request (CSR)"
+    	# openssl req -new -key gitlab.key -out gitlab.csr
+    	# echo "Docker gitlab - sign the certificate using the private key and CSR"
+    	# openssl x509 -req -days 3650 -in gitlab.csr -signkey gitlab.key -out gitlab.crt
+    	# echo "Docker gitlab - strengthening the server security"
+    	# openssl dhparam -out dhparam.pem 2048
+
+    	# echo "Docker gitlab - installation of the SSL Certificates"
+
+    	# sudo mkdir -p /srv/docker/gitlab/gitlab/certs
+    	# sudo cp gitlab.key /srv/docker/gitlab/gitlab/certs/
+    	# sudo cp gitlab.crt /srv/docker/gitlab/gitlab/certs/
+    	# sudo cp dhparam.pem /srv/docker/gitlab/gitlab/certs/
+    	# sudo chmod 400 /srv/docker/gitlab/gitlab/certs/gitlab.key
+    fi
+
+    # Providing the next steps
+
+    echo "$HEADER configure the docker-compose file environment variables and use as domain the one you provided: $DOMAIN"
+    echo "$HEADER when you're finished, execute the run script"
+
+    # Running services
+
+    echo "$HEADER running services"
+
+    docker-compose up -d
+
+    echo "$HEADER complete."
+fi
+
+
