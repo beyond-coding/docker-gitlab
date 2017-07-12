@@ -25,7 +25,7 @@ fi
 
 # Generating the certificate
 
-CERTIFICATE="certs/registry.key"
+CERTIFICATE="certs/registry-auth.key"
 if [ -f "$CERTIFICATE" ]
 then
     echo "$HEADER Certificate ready, $CERTIFICATE already exists."
