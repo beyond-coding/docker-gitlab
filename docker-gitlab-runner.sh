@@ -21,7 +21,7 @@ echo "$DIR"
 docker run -d --name gitlab-runner --restart always --privileged \
   --insecure-registry $GITLAB_HOST:$REGISTRY_PORT \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v $DIR/certs:/certs
+  -v $DIR/certs:/certs \
   -v $DIR/gitlab-runner/config:/etc/gitlab-runner \
   gitlab/gitlab-runner:latest
 
