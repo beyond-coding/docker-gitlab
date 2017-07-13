@@ -38,7 +38,7 @@ else
     # openssl x509 -in registry.csr -out registry.crt -req -signkey registry.key -days 3650
 
     # certificate for the Docker Registry
-    openssl req -nodes -newkey rsa:4096 -keyout registry-auth.key -out registry-auth.csr -subj "/CN=gitlab-issuer"
+    openssl req -nodes -newkey rsa:4096 -keyout registry-auth.key -out registry-auth.csr -subj "/CN=$DOMAIN"
     openssl x509 -in registry-auth.csr -out registry-auth.crt -req -signkey registry-auth.key -days 3650
 
     cd ..

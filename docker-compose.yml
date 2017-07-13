@@ -173,6 +173,8 @@ services:
     - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/registry
     - REGISTRY_AUTH_TOKEN_REALM=http://$GITLAB_HOST:10080/jwt/auth
     - REGISTRY_AUTH_TOKEN_SERVICE=container_registry
-    - REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
+    - REGISTRY_AUTH_TOKEN_ISSUER=$GITLAB_HOST
+    - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry-auth.crt
+    - REGISTRY_HTTP_TLS_KEY=/certs/registry-auth.key
     - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry-auth.crt
     - REGISTRY_STORAGE_DELETE_ENABLED=true

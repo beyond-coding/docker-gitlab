@@ -1,0 +1,23 @@
+I see.
+
+So after diggin' through, I've found the cause and a solution.
+
+Short story: you should not want to use self-signed certificates in production. It's a pain because every docker client has to have your .crt.
+
+When using a self-signed:
+
+As stated on the registry docs: "Be sure to use the name myregistrydomain.com as a CN." In this case 'gitlab-issuer' is not a valid CN, use registry.gitlab.mysite.fr.
+Copy your generated registry-auth.crt file to /etc/docker/certs.d/registry.gitlab.mysite.fr:5000/ca.crt on the machine where the Docker daemon is running.
+The docker daemon has to be initialised with the --insecure-registry-flag. I did apply this with my docker-machine thanks to this post (see comment from RAY at MAY 14, 2016)
+Add port "5000:5000" to the registry service, else the runner is unable to connect to it. (I assume the 5500 on the gitlab service is not being used, therefore could be removed)
+Add these env vars to the registry service: (see the docs)
+REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry-auth.crt
+REGISTRY_HTTP_TLS_KEY=/certs/registry-auth.key
+Make sure you have the docker.sock mounted with your gitlab-multi-runner
+Make sure to mount the docker.sock inside your runners:
+docker exec -it gitlab-runner vi /etc/gitlab-runner/config.toml
+and add the docker.sock:
+volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
+Since I've done a lot of trail and error, it could be that some steps are unnecessary. I hope I did not forget anything. :sweat_smile:
+
+I recommend to use valid ssl certificates for the registry as well as GitLab itself. Use LetsEncrypt for instance.
