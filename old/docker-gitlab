@@ -8,4 +8,4 @@ wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker
 
 echo "Docker gitlab - in order to activate mail, edit SMTP_USER and SMTP_PASS"
 
-echo "Docker gitlab - in order to run services run: docker-compose up -d"
+echo "Docker gitlab - in order to run.sh services run.sh: docker-compose up -d"
