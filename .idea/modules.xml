@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/docker-gitlab.iml" filepath="$PROJECT_DIR$/docker-gitlab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../playground/gitlabtest/gitlabtest.iml" filepath="$PROJECT_DIR$/../../playground/gitlabtest/gitlabtest.iml" />
     </modules>
   </component>
 </project>
