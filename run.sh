@@ -20,7 +20,7 @@ then
 else
     echo "$HEADER getting docker-compose file."
     wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-compose.yml
-    wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-gitlab-runner.sh
+        wget https://raw.githubusercontent.com/beyond-coding/docker-gitlab/master/docker-gitlab-runner.sh
     chmod 777 docker-gitlab-runner.sh
 fi
 
